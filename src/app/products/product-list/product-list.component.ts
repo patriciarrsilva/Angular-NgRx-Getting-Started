@@ -5,6 +5,9 @@ import { Subscription } from 'rxjs';
 import { Product } from '../product';
 import { ProductService } from '../product.service';
 
+/* NgRx */
+import { Store } from '@ngrx/store';
+
 @Component({
   selector: 'pm-product-list',
   templateUrl: './product-list.component.html',
@@ -22,7 +25,8 @@ export class ProductListComponent implements OnInit, OnDestroy {
   selectedProduct: Product | null;
   sub: Subscription;
 
-  constructor(private productService: ProductService) { }
+  constructor(private store: Store<any>,
+              private productService: ProductService) { }
 
   ngOnInit(): void {
     this.sub = this.productService.selectedProductChanges$.subscribe(
@@ -40,7 +44,10 @@ export class ProductListComponent implements OnInit, OnDestroy {
   }
 
   checkChanged(value: boolean): void {
-    this.displayCode = value;
+    this.store.dispatch({
+      type: 'TOGGLE_PRODUCT_CODE',
+      payload: value
+    });
   }
 
   newProduct(): void {

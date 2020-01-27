@@ -1,15 +1,26 @@
+import { createFeatureSelector, createSelector } from '@ngrx/store';
+
 export interface UserState {
     maskUserName: boolean;
 }
 
-export function reducer(state, action) {
+const initialState: UserState = {
+    maskUserName: true
+};
+
+const getUserFeatureState = createFeatureSelector<UserState>('users');
+
+export const getmaskUserName = createSelector(
+    getUserFeatureState,
+    state => state.maskUserName
+);
+
+export function reducer(state = initialState, action): UserState {
     switch (action.type) {
         case 'MASK_USER_NAME':
-            console.log('existing state: ' + JSON.stringify(state));
-            console.log('payload: ' + action.payload);
             return {
                 ...state,
-                maskUerName: action.payload
+                maskUserName: action.payload
             };
         default:
             return state;

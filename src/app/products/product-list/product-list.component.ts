@@ -23,6 +23,7 @@ export class ProductListComponent implements OnInit, OnDestroy {
   // Used to highlight the selected product in the list
   selectedProduct: Product | null;
   products$: Observable<Product[]>;
+  errorMessage$: Observable<string>;
 
   constructor(private store: Store<fromProduct.State>,
               private productService: ProductService) { }
@@ -32,6 +33,8 @@ export class ProductListComponent implements OnInit, OnDestroy {
     this.store.pipe(select(fromProduct.getCurrentProduct)).subscribe(
       currentProduct => this.selectedProduct = currentProduct
     );
+
+    this.errorMessage$ = this.store.pipe(select(fromProduct.getError));
 
     this.store.dispatch(new productActions.Load());
     this.products$ = this.store.pipe(select(fromProduct.getProducts));

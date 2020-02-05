@@ -1,7 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 
 import { Product } from '../product';
-import { ProductService } from '../product.service';
 import { Store, select } from '@ngrx/store';
 import * as fromProduct from '../state/product.reducer';
 import * as productActions from '../state/product.actions';
@@ -27,8 +26,7 @@ export class ProductListComponent implements OnInit, OnDestroy {
   products$: Observable<Product[]>;
   errorMessage$: Observable<string>;
 
-  constructor(private store: Store<fromProduct.State>,
-              private productService: ProductService) { }
+  constructor(private store: Store<fromProduct.State>) { }
 
   ngOnInit(): void {
     this.store.pipe(
